@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <div id="count"></div>
+    <canvas id="draw"></canvas>
+    <script type="text/javascript">
+        (function randomDrop() {
+            var numberShapes = 10,
+                winX = window.innerWidth,
+                winY = window.innerHeight,
+                drawing = document.getElementById('draw'),
+                i,
+                coordX,
+                coordY,
+                colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
+            var coords = [];
+
+            if (drawing.getContext) {
+                var context = drawing.getContext('2d');
+                drawing.setAttribute('width', winX);
+                drawing.setAttribute('height', 3000);
+                var drawcount = 0;
+                for (i = 0; i < numberShapes ; i++) {
+                    coordX = Math.floor(Math.random()* winX)+1;
+                    coordY = Math.floor(Math.random()* winY)+1;
+                    coords = [coordX, coordY];                         //set the shape coordinate
+                    context.fillStyle = colors[Math.floor(Math.random()*10)+1];   //randomize the color of shape
+
+                    var diffX = winX - coords[0];
+                    var diffY = winY - coords[1];
+                        if (diffX < 150 && diffY < 150) {
+                            while ((winX - coords[0]) < 150) {
+                                coords[0]--;
+                            }
+                            while ((winY - coords[1]) < 150) {
+                                coords[1]--;
+                            }
+                            context.fillRect(coords[0], coords[1], 150, 150);
+                        }
+                        else if (diffX < 150) {
+                            while ((winX-coords[0]) < 150) {
+                                coords[0]--;
+                            }
+                            context.fillRect(coords[0], coords[1], 150, 150);
+                        }
+
+                        else if (diffY < 150) {
+                            while ((winX-coords[1]) < 150) {
+                                coords[1]--;
+                            }
+                            context.fillRect(coords[0], coords[1], 150, 150);
+                        }
+
+                        else {
+                            context.fillRect(coords[0], coords[1], 150, 150);
+                        }
+
+                        drawcount++;
+                    
+                }
+
+                var count = document.getElementById('count');
+                count.appendChild(document.createTextNode(drawcount));
+            }
+
+        })();
+    </script>
+</body>
+</html>
